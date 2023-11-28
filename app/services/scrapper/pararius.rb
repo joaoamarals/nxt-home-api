@@ -3,19 +3,40 @@
 module Scrapper
   # Scrapper for Pararius website to get apartments in the Netherlands
   class Pararius
-    BASE_URL = 'https://www.pararius.com/apartments/rotterdam'
+    BASE_URL = 'https://www.pararius.com/apartments'
 
-    def call
-      response = HTTParty.get(BASE_URL)
+    CITIES = %w[amsterdam rotterdam den-haag utrecht eindhoven groningen
+                tilburg breda haarlem delft leiden maastricht].freeze
+
+    # @param [String] city
+    # @param [Integer] page
+    def self.call(city:, page: nil)
+      new.call(city:, page:)
+    end
+
+    def call(city:, page: nil)
+      response = HTTParty.get(build_url(city:, page:))
       @document = Nokogiri::HTML(response.body)
 
-      parse_document
+      parsed_ads
     end
 
     private
 
-    def parse_document
-      home_ads.each do |home_ad|
+    def build_url(city:, page:)
+      url = "#{BASE_URL}/#{city}"
+      page ? "#{url}/page-#{page}" : url
+    end
+
+    def parse_page(page)
+      response = HTTParty.get("#{BASE_URL}?page=#{page}")
+      @document = Nokogiri::HTML(response.body)
+
+      parsed_ads
+    end
+
+    def parsed_ads
+      home_ads.map do |home_ad|
         parse_ad(home_ad)
       end
     end
