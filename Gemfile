@@ -5,15 +5,11 @@ ruby '3.1.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
-# Use to make http requests
 gem 'httparty'
-# Use to parse HTML files
 gem 'nokogiri'# Use Puma as the app server
 gem 'puma', '~> 5.0'
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem "rails", "~> 7.0.0"
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+gem 'mysql2', '0.5.3' # Use mysql as the database for Active Record
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
