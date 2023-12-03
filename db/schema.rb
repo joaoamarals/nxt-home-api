@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_28_223002) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_03_163152) do
   create_table "home_ads", charset: "utf8mb3", force: :cascade do |t|
     t.string "uuid"
     t.text "elements"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uuid"], name: "index_home_ads_on_uuid", unique: true
+  end
+
+  create_table "users", charset: "utf8mb3", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
