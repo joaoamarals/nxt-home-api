@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class GetNewAdsJob < ApplicationJob
-  def perform(*args)
+  def perform(_args)
     Scrapper::Pararius::CITIES.each do |city|
       page = 1
 
@@ -8,7 +10,7 @@ class GetNewAdsJob < ApplicationJob
         no_of_existing_ads_per_page = 0
 
         sleep rand(1..4) * 0.01
-        ads = Scrapper::Pararius.new.call(city:, page: page)
+        ads = Scrapper::Pararius.new.call(city:, page:)
 
         ads.each do |ad|
           HomeAd.create!(uuid: ad[:id], elements: ad)
