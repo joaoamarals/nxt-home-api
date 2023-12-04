@@ -10,6 +10,7 @@ gem 'nokogiri'# Use Puma as the app server
 gem 'puma', '~> 5.0'
 gem "rails", "~> 7.0.0"
 gem 'mysql2', '0.5.3' # Use mysql as the database for Active Record
+gem 'dotenv-rails'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
