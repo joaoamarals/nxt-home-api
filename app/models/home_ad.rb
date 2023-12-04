@@ -3,7 +3,7 @@
 class HomeAd < ApplicationRecord
   serialize :elements, Hash
 
-  after_commit do
+  after_create do
     ActiveSupport::Notifications.instrument(
       'created.home_ad', { home_ad: self }
     )
@@ -22,7 +22,7 @@ class HomeAd < ApplicationRecord
   end
 
   def price
-    elements[:price].match(/[0-9]+/)[0]
+    (elements[:price].match(/[0-9,]+/) || [])[0]&.gsub(',', '').to_i
   end
 
   def title

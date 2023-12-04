@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GetNewAdsJob < ApplicationJob
-  def perform(_args)
+  def perform
     Scrapper::Pararius::CITIES.each do |city|
       page = 1
 
