@@ -23,5 +23,17 @@ module NxtHomeApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # This also configures session_options for use below
+    config.session_store :cookie_store, key: '_interslice_session'
+
+    # Required for all session management (regardless of session_store)
+    config.middleware.use ActionDispatch::Cookies
+
+    config.middleware.use config.session_store, config.session_options
+
+    config.active_support.cache_format_version = 7.0
+
+    config.active_support.disable_to_s_conversion = true
   end
 end
