@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class GetNewAdsJob < ApplicationJob
+  class NeedCaptchaError < StandardError; end
+
+  queue_as :default
   def perform
     Scrapper::Pararius::CITIES.each do |city|
       page = 1
@@ -9,8 +12,10 @@ class GetNewAdsJob < ApplicationJob
         puts "City: #{city} | Page: #{page}"
         no_of_existing_ads_per_page = 0
 
-        sleep rand(1..4) * 0.01
+        sleep rand(1..100) * 0.1
         ads = Scrapper::Pararius.new.call(city:, page:)
+
+        raise NeedCaptchaError if ads.empty?
 
         ads.each do |ad|
           HomeAd.create!(uuid: ad[:id], elements: ad)

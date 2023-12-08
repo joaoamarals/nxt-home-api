@@ -1,22 +1,19 @@
 default: &default
-  adapter: mysql2
-  encoding: utf8
-  charset: utf8
+  adapter: postgresql
+  encoding: unicode
+  pool: 10
 
 development:
   <<: *default
   database: home_next_development
   host: 127.0.0.1
-  port: 3306
-  pool: 10
-  username: <%= ENV['RAILS_DB_USERNAME'] %>
-  password: <%= ENV['RAILS_DB_PASSWORD'] %>
+  port: 5432
+  username: <%= ENV['POSTGRES_DB_ROLE'] %>
 
 test:
   <<: *default
   database: home_next_test
   host: 127.0.0.1
-  port: 3306
-  pool: 5
-  username: <%= ENV['RAILS_DB_USERNAME'] %>
+  port: 5432
+  username: <%= ENV['POSTGRES_DB_ROLE'] %>
   password: <%= ENV['RAILS_DB_PASSWORD'] %>
