@@ -8,6 +8,7 @@ development:
   database: home_next_development
   host: 127.0.0.1
   port: 3306
+  pool: 10
   username: <%= ENV['RAILS_DB_USERNAME'] %>
   password: <%= ENV['RAILS_DB_PASSWORD'] %>
 

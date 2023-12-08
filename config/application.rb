@@ -35,5 +35,9 @@ module NxtHomeApi
     config.active_support.cache_format_version = 7.0
 
     config.active_support.disable_to_s_conversion = true
+
+    # https://rubyroidlabs.com/blog/2016/06/telegram-bot/
+
+    config.hosts << "2805-2a02-a212-92c5-6900-fce2-51d7-3624-5f8e.ngrok-free.app"
   end
 end
