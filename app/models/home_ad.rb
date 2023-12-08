@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class HomeAd < ApplicationRecord
-  serialize :elements, Hash
+  serialize :elements, HashSerializer
+  store_accessor :elements, :link, :title, :features
 
   after_create do
     ActiveSupport::Notifications.instrument(
@@ -9,23 +10,15 @@ class HomeAd < ApplicationRecord
     )
   end
 
-  def link
-    elements[:link]
-  end
-
   def location
     elements[:link].split('/')[2]
   end
 
   def no_of_rooms
-    elements[:features]['number-of-rooms'].match(/[0-9]/)[0].to_i
+    features['number-of-rooms'].match(/[0-9]/)[0].to_i
   end
 
   def price
     (elements[:price].match(/[0-9,]+/) || [])[0]&.gsub(',', '').to_i
-  end
-
-  def title
-    elements[:title]
   end
 end

@@ -9,6 +9,7 @@ development:
   host: 127.0.0.1
   port: 5432
   username: <%= ENV['POSTGRES_DB_ROLE'] %>
+  password: <%= ENV['RAILS_DB_PASSWORD'] %>
 
 test:
   <<: *default

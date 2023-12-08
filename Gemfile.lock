@@ -73,6 +73,9 @@ GEM
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
+    data_migrate (9.2.0)
+      activerecord (>= 6.1)
+      railties (>= 6.1)
     date (3.3.4)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
@@ -193,6 +196,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
+  data_migrate
   dotenv-rails
   httparty
   listen (~> 3.3)
