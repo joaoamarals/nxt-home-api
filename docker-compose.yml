@@ -1,0 +1,83 @@
+version: "3.8"
+services:
+  api:
+    container_name: nxt-home-api
+    image: nxt-home-api
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - REDIS_HOST=redis
+      - IS_WORKER=false
+      - DB_USER=postgres
+      - DB_PASS=password
+      - DB_HOST=db
+      - API_PORT=3000
+    networks:
+      - dev-net
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/code
+      - bundle-vol:/home/user/ruby
+
+  db:
+    image: postgres
+    container_name: nxt-home-db
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+    ports:
+      - 5433:5432
+    networks:
+      - dev-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: nxt-home-redis
+    image: redis:6.2-alpine
+    networks:
+      - dev-net
+    volumes:
+      - redis-vol:/data
+
+  sidekiq:
+    container_name: nxt-home-sidekiq
+    image: nxt-home-api
+    command: bundle exec sidekiq
+    networks:
+      - dev-net
+    depends_on:
+      - api
+    environment:
+      - REDIS_HOST=redis
+      - IS_WORKER=true
+      - DB_USER=postgres
+      - DB_PASS=password
+      - DB_HOST=db
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/code
+      - bundle-vol:/home/user/ruby
+
+networks:
+  dev-net:
+    driver: bridge
+
+volumes:
+  bundle-vol:
+  db-vol:
+  redis-vol:

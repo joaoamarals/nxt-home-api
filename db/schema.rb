@@ -18,29 +18,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_08_155535) do
   end
 
   create_table "home_ads", force: :cascade do |t|
-    t.string "uuid", limit: 255
-    t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "elements"
-    t.index ["uuid"], name: "idx_16460_index_home_ads_on_uuid", unique: true
+    t.index ["uuid"], name: "index_home_ads_on_uuid", unique: true
   end
 
   create_table "searches", force: :cascade do |t|
-    t.string "location", limit: 255, null: false
-    t.decimal "min_price", precision: 10
-    t.decimal "max_price", precision: 10
+    t.string "location", null: false
+    t.decimal "min_price"
+    t.decimal "max_price"
     t.integer "rooms"
     t.bigint "user_id", null: false
-    t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.index ["user_id"], name: "idx_16470_index_searches_on_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_searches_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", limit: 255, null: false
-    t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.index ["email"], name: "idx_16475_index_users_on_email", unique: true
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "searches", "users"

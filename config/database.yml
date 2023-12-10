@@ -5,16 +5,17 @@ default: &default
 
 development:
   <<: *default
-  database: home_next_development
-  host: 127.0.0.1
-  port: 5432
-  username: <%= ENV['POSTGRES_DB_ROLE'] %>
-  password: <%= ENV['RAILS_DB_PASSWORD'] %>
+  database: nxt_home_development
+  port: <%= ENV['DB_PORT'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
 
 test:
   <<: *default
-  database: home_next_test
-  host: 127.0.0.1
-  port: 5432
-  username: <%= ENV['POSTGRES_DB_ROLE'] %>
-  password: <%= ENV['RAILS_DB_PASSWORD'] %>
+  database: nxt_home_test
+  port: <%= ENV['DB_PORT'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+
