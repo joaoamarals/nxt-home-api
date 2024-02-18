@@ -11,9 +11,8 @@ gem 'httparty'
 gem 'nokogiri'# Use Puma as the app server
 gem 'pg'
 gem 'puma', '~> 5.0'
-gem "rails", "~> 7.0.0"
-gem 'sidekiq'
-gem "schked", "~> 1.3"
+gem 'rails', '~> 7.1.0'
+gem 'good_job'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

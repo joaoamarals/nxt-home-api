@@ -20,7 +20,7 @@ class GetNewAdsJob < ApplicationJob
         ads.each do |ad|
           HomeAd.create!(uuid: ad[:id], elements: ad)
         rescue ActiveRecord::RecordNotUnique
-          puts "Record already exists and no of existing ads per page was #{no_of_existing_ads_per_page}"
+          puts "Record already exists and the no. of existing ads per page are #{no_of_existing_ads_per_page}"
           existing_ad = HomeAd.find_by(uuid: ad[:id])
           no_of_existing_ads_per_page += 1 and next if existing_ad
         end

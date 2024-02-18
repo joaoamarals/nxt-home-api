@@ -1,6 +1,4 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
+  mount GoodJob::Engine => 'good_job'
   resources :searches, only: :create
 end

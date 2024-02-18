@@ -46,30 +46,30 @@ start_web()
   bundle exec rails s -p $API_PORT -e development -b '0.0.0.0'
 }
 
-# Ensure sidekiq is installed before trying to run it
-ensure_sidekiq()
+# Ensure good_job is installed before trying to run it
+ensure_good_job()
 {
   attempts=10
   waiting_time=2 # seconds
   increment=5    # seconds
-  sidekiq_version=""
+  good_job_version=""
 
-  # attempt to find sidekiq before running bundle
+  # attempt to find good_job before running bundle
   for attempt in $(seq 1 $attempts); do
-    echo "Attempt $attempt out of $attempts to run sidekiq"
+    echo "Attempt $attempt out of $attempts to run good_job"
 
-    # sends stdout and stderr to grep and look for '* sidekiq (x.y.z)'
-    # that means sidekiq gem is installed
-    sidekiq_version=$(bundle info sidekiq \
-      &> >(grep -oP '(?<=\* sidekiq \()(\d{1,2}\.){2}\d{1,2}'))
+    # sends stdout and stderr to grep and look for '* good_job (x.y.z)'
+    # that means good_job gem is installed
+    good_job_version=$(bundle info good_job\
+      &> >(grep -oP '(?<=\* good_job \()(\d{1,2}\.){2}\d{1,2}'))
 
-    # if string is not empty then sidekiq is installed, so leave loop
-    if [[ -n "$sidekiq_version" ]]; then
-      echo "Found sidekiq gem version $sidekiq_version."
+    # if string is not empty then good_job is installed, so leave loop
+    if [[ -n "$good_job_version" ]]; then
+      echo "Found good_job gem version $good_job_version."
       break
     fi
 
-    # if no sidekiq is found, sleep and try again
+    # if no good_job is found, sleep and try again
     echo "Waiting $waiting_time seconds before next attempt..."
     sleep $waiting_time
 
@@ -77,8 +77,8 @@ ensure_sidekiq()
     waiting_time=$(expr "$waiting_time" + "$increment")
   done
 
-  # return 0 if sidekiq was found or 1 if not found
-  if [[ -z "$sidekiq_version" ]]; then
+  # return 0 if good_job was found or 1 if not found
+  if [[ -z "$good_job_version" ]]; then
     return 1
   else
     return 0
@@ -89,33 +89,33 @@ ensure_sidekiq()
 start_worker()
 {
   ensure_gems
-  ensure_sidekiq
+  ensure_good_job
 
   # evaluate return codes from previous function
   case "$?" in
     0)
-      echo "Sidekiq was found. Starting process..."
-      bundle exec sidekiq
+      echo "GoodJob was found. Starting process..."
+      bundle exec good_job start
       ;;
     1)
-      echo "Sidekiq not found!"
+      echo "GoodJob not found!"
       ;;
   esac
 }
 
 # Start instance based on instance type
-case "$IS_WORKER" in
-  "false")
+case "$TYPE" in
+  "web")
     echo "Web instance detected."
     echo "Serving on ssl://0.0.0.0:$API_PORT with certificates from $ssl_folder"
     start_web
     ;;
-  "true")
+  "worker")
     echo "Worker instance detected."
     start_worker
     ;;
   *)
     echo "Startup script was not able to detect the instance type from docker-compose"
-    echo "Environment Variable IS_WORKER has returned: $IS_WORKER"
+    echo "Environment Variable TYPE has returned: $TYPE"
     ;;
 esac

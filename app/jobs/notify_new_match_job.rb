@@ -9,7 +9,7 @@ class NotifyNewMatchJob < ApplicationJob
                            .where('min_price <= :price AND :price <= max_price', price: home_ad.price)
 
     match_searches.each do |search|
-      SearchMailer.with({ search:, home_ad: }).new_match.deliver_now
+      # SearchMailer.with({ search:, home_ad: }).new_match.deliver_now
     end
   end
 end

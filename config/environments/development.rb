@@ -55,7 +55,8 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :good_job
+  config.good_job.execution_mode = :async
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

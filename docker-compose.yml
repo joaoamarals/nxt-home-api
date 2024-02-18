@@ -7,11 +7,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_started
     environment:
-      - REDIS_HOST=redis
-      - IS_WORKER=false
+      - TYPE=web
       - DB_USER=postgres
       - DB_PASS=password
       - DB_HOST=db
@@ -45,25 +42,15 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    container_name: nxt-home-redis
-    image: redis:6.2-alpine
-    networks:
-      - dev-net
-    volumes:
-      - redis-vol:/data
-
-  sidekiq:
-    container_name: nxt-home-sidekiq
+  worker:
+    container_name: nxt-home-worker
     image: nxt-home-api
-    command: bundle exec sidekiq
     networks:
       - dev-net
     depends_on:
       - api
     environment:
-      - REDIS_HOST=redis
-      - IS_WORKER=true
+      - TYPE=worker
       - DB_USER=postgres
       - DB_PASS=password
       - DB_HOST=db
@@ -80,4 +67,3 @@ networks:
 volumes:
   bundle-vol:
   db-vol:
-  redis-vol:

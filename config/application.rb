@@ -39,5 +39,10 @@ module NxtHomeApi
     # https://rubyroidlabs.com/blog/2016/06/telegram-bot/
 
     config.hosts << "2805-2a02-a212-92c5-6900-fce2-51d7-3624-5f8e.ngrok-free.app"
+
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
   end
 end

@@ -4,11 +4,11 @@ class HomeAd < ApplicationRecord
   serialize :elements, HashSerializer
   store_accessor :elements, :link, :title, :features
 
-  after_create do
-    ActiveSupport::Notifications.instrument(
-      'created.home_ad', { home_ad: self }
-    )
-  end
+  # after_create do
+  #   ActiveSupport::Notifications.instrument(
+  #     'created.home_ad', { home_ad: self }
+  #   )
+  # end
 
   def location
     elements[:link].split('/')[2]
